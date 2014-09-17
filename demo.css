@@ -1,0 +1,21 @@
+.col {
+	float: left;
+	width: 30%;
+	position: relative;
+	margin-right: 3%;
+}
+
+.col-preview {
+	color: #999;
+}
+
+.highlights {
+	position: absolute;
+	opacity: 0.5;
+}
+
+.highlight {
+	position: absolute;
+	background: red;
+	box-shadow: inset 0 0 0 1px #600;
+}
