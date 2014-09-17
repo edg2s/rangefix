@@ -58,6 +58,33 @@
 		return rects;
 	}
 
+	function rangeGetBoundingClientRect( range ) {
+		var i, l, boundingRect,
+			rects = rangeGetClientRects( range );
+
+		for ( i = 0, l = rects.length; i < l; i++ ) {
+			if ( !boundingRect ) {
+				boundingRect = {
+					left: rects[i].left,
+					top: rects[i].top,
+					right: rects[i].right,
+					bottom: rects[i].bottom
+				};
+			} else {
+				boundingRect.left = Math.min( boundingRect.left, rects[i].left );
+				boundingRect.top = Math.min( boundingRect.top, rects[i].top );
+				boundingRect.right = Math.max( boundingRect.right, rects[i].right );
+				boundingRect.bottom = Math.max( boundingRect.bottom, rects[i].bottom );
+			}
+		}
+		if ( boundingRect ) {
+			boundingRect.width = boundingRect.right - boundingRect.left;
+			boundingRect.height = boundingRect.bottom - boundingRect.top;
+		}
+		return boundingRect;
+	}
+
 	// Expose
 	window.rangeGetClientRects = rangeGetClientRects;
+	window.rangeGetBoundingClientRect = rangeGetBoundingClientRect;
 } )();
