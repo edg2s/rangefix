@@ -36,8 +36,8 @@
 		// we got up to
 		// https://code.google.com/p/chromium/issues/detail?id=324437
 		var rects = [],
-			endContainer = range.endContainer;
-			endOffset = range.endOffset;
+			endContainer = range.endContainer,
+			endOffset = range.endOffset,
 			partialRange = document.createRange();
 
 		while ( endContainer !== range.commonAncestorContainer ) {
