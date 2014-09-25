@@ -1,6 +1,10 @@
 $( function () {
-	var selection = document.getSelection();
-	$( document ).on( 'mousemove', function () {
+
+	var selection = document.getSelection(),
+		hasSelectionChange = 'onselectionchange' in document,
+		events = hasSelectionChange ? 'selectionchange' : 'mousemove mouseup keypress keydown';
+
+	$( document ).on( events, function () {
 		if ( selection.rangeCount === 0 ) {
 			return;
 		}
@@ -35,4 +39,5 @@ $( function () {
 		offset = $( '.col-text' )[0].getBoundingClientRect();
 		$( '.highlights' ).css( { top: -offset.top, left: -offset.left } );
 	} );
+
 } );
