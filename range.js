@@ -1,5 +1,7 @@
 ( function () {
 
+	var isBroken;
+
 	/**
 	 * Polyfill for Array.indexOf
 	 *
@@ -46,12 +48,49 @@
 	}
 
 	/**
+	 * Check if the bug is present in the native function
+	 *
+	 * Constructs two lines of text and creates a range between them.
+	 * Broken browsers will return three rectangles instead of two.
+	 *
+	 * @private
+	 * @return {booean} The bug is present
+	 */
+	function isGetClientRectsBroken() {
+		if ( isBroken === undefined ) {
+			var p1 = document.createElement( 'p' ),
+				p2 = document.createElement( 'p' ),
+				t1 = document.createTextNode( 'aa' ),
+				t2 = document.createTextNode( 'aa' ),
+				range = document.createRange();
+
+			p1.appendChild( t1 );
+			p2.appendChild( t2 );
+
+			document.body.appendChild( p1 );
+			document.body.appendChild( p2 );
+
+			range.setStart( t1, 1 );
+			range.setEnd( t2, 1 );
+			isBroken = range.getClientRects().length > 2;
+
+			document.body.removeChild( p1 );
+			document.body.removeChild( p2 );
+		}
+		return isBroken;
+	}
+
+	/**
 	 * Get client rectangles from a range
 	 *
 	 * @param {Range} range Range
 	 * @return {ClientRect[]} List of ClientRect objects (similar to ClientRectList) describing range
 	 */
 	function rangeGetClientRects( range ) {
+		if ( !isGetClientRectsBroken() ) {
+			return range.getClientRects();
+		}
+
 		// Chrome gets the end container rects wrong when spanning
 		// nodes so we need to traverse up the tree from the endContainer until
 		// we reach the common ancestor, then we can add on from start to where
@@ -87,6 +126,10 @@
 	 * @return {Object} ClientRect-like object describing bounding rectangle
 	 */
 	function rangeGetBoundingClientRect( range ) {
+		if ( !isGetClientRectsBroken() ) {
+			return range.getBoundingClientRect();
+		}
+
 		var i, l, boundingRect,
 			rects = rangeGetClientRects( range );
 
@@ -115,4 +158,5 @@
 	// Expose
 	window.rangeGetClientRects = rangeGetClientRects;
 	window.rangeGetBoundingClientRect = rangeGetBoundingClientRect;
+
 } )();
