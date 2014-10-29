@@ -1,5 +1,9 @@
 $( function () {
 
+	var selection = document.getSelection(),
+		hasSelectionChange = 'onselectionchange' in document,
+		events = hasSelectionChange ? 'selectionchange' : 'mousemove mouseup keypress keydown keyup';
+
 	function cssProps( rect ) {
 		return {
 			left: rect.left,
@@ -14,9 +18,14 @@ $( function () {
 			return;
 		}
 		var i, l, rect, rects, offset,
+			$col = $( selection.focusNode ).closest( '.col' ),
 			range = selection.getRangeAt( 0 ),
 			$highlightsNative = $( '<div>' ),
 			$highlightsFixed = $( '<div>' );
+
+		if ( !$col.length ) {
+			return;
+		}
 
 		// Native
 		rects = range.getClientRects();
@@ -41,13 +50,9 @@ $( function () {
 		}
 
 		// Adjust for container position
-		offset = $( '.col-text' )[0].getBoundingClientRect();
+		offset = $col[0].getBoundingClientRect();
 		$( '.highlights' ).css( { top: -offset.top, left: -offset.left } );
 	}
-
-	var selection = document.getSelection(),
-		hasSelectionChange = 'onselectionchange' in document,
-		events = hasSelectionChange ? 'selectionchange' : 'mousemove mouseup keypress keydown keyup';
 
 	$( document ).on( events, render );
 	$( window ).on( 'resize', render );

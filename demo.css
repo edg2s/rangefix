@@ -5,6 +5,10 @@
 	margin-right: 3%;
 }
 
+.col:focus {
+	outline: none;
+}
+
 .col-preview {
 	color: #999;
 }
@@ -12,6 +16,7 @@
 .highlights {
 	position: absolute;
 	opacity: 0.5;
+	pointer-events: none;
 }
 
 .highlight {
