@@ -4,37 +4,6 @@
 		rangeFix = {};
 
 	/**
-	 * Polyfill for Array.indexOf
-	 *
-	 * @private
-	 * @param {Mixed} elem Element to find
-	 * @param {Array} arr Array to find in
-	 * @param {number} [i] Starting offset
-	 * @return {number} Index of element in array, or -1 if not found
-	 */
-	function indexOf( elem, arr, i ) {
-		var len;
-
-		if ( arr ) {
-			if ( Array.prototype.indexOf ) {
-				return Array.prototype.indexOf.call( arr, elem, i );
-			}
-
-			len = arr.length;
-			i = i ? i < 0 ? Math.max( 0, len + i ) : i : 0;
-
-			for ( ; i < len; i++ ) {
-				// Skip accessing in sparse arrays
-				if ( i in arr && arr[ i ] === elem ) {
-					return i;
-				}
-			}
-		}
-
-		return -1;
-	}
-
-	/**
 	 * Check if the bug is present in the native function
 	 *
 	 * Constructs two lines of text and creates a range between them.
@@ -94,7 +63,7 @@
 
 			Array.prototype.push.apply( rects, partialRange.getClientRects() );
 
-			endOffset = indexOf( endContainer, endContainer.parentNode.childNodes );
+			endOffset = endContainer.parentNode.childNodes.indexOf( endContainer );
 			endContainer = endContainer.parentNode;
 		}
 
