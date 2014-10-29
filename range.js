@@ -1,5 +1,14 @@
 ( function () {
 
+	/**
+	 * Polyfill for Array.indexOf
+	 *
+	 * @private
+	 * @param {Mixed} elem Element to find
+	 * @param {Array} arr Array to find in
+	 * @param {number} [i] Starting offset
+	 * @return {number} Index of element in array, or -1 if not found
+	 */
 	function indexOf( elem, arr, i ) {
 		var len;
 
@@ -22,6 +31,13 @@
 		return -1;
 	}
 
+	/**
+	 * Append ClientRect items from a ClientRectList to an array
+	 *
+	 * @private
+	 * @param {Array} arr Array to append to
+	 * @param {ClientRectList} rectList ClientRectList object
+	 */
 	function appendRectList( arr, rectList ) {
 		var i;
 		for ( i = 0; i < rectList.length; i++ ) {
@@ -29,6 +45,12 @@
 		}
 	}
 
+	/**
+	 * Get client rectangles from a range
+	 *
+	 * @param {Range} range Range
+	 * @return {ClientRect[]} List of ClientRect objects (similar to ClientRectList) describing range
+	 */
 	function rangeGetClientRects( range ) {
 		// Chrome gets the end container rects wrong when spanning
 		// nodes so we need to traverse up the tree from the endContainer until
@@ -58,6 +80,12 @@
 		return rects;
 	}
 
+	/**
+	 * Get bounding rectangle from a range
+	 *
+	 * @param {Range} range Range
+	 * @return {Object} ClientRect-like object describing bounding rectangle
+	 */
 	function rangeGetBoundingClientRect( range ) {
 		var i, l, boundingRect,
 			rects = rangeGetClientRects( range );
