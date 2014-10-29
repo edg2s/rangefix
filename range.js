@@ -34,20 +34,6 @@
 	}
 
 	/**
-	 * Append ClientRect items from a ClientRectList to an array
-	 *
-	 * @private
-	 * @param {Array} arr Array to append to
-	 * @param {ClientRectList} rectList ClientRectList object
-	 */
-	function appendRectList( arr, rectList ) {
-		var i;
-		for ( i = 0; i < rectList.length; i++ ) {
-			arr.push( rectList[i] );
-		}
-	}
-
-	/**
 	 * Check if the bug is present in the native function
 	 *
 	 * Constructs two lines of text and creates a range between them.
@@ -105,7 +91,7 @@
 			partialRange.setStart( endContainer, 0 );
 			partialRange.setEnd( endContainer, endOffset );
 
-			appendRectList( rects, partialRange.getClientRects() );
+			Array.prototype.push.apply( rects, partialRange.getClientRects() );
 
 			endOffset = indexOf( endContainer, endContainer.parentNode.childNodes );
 			endContainer = endContainer.parentNode;
@@ -115,7 +101,7 @@
 		// original start position to where we ended up.
 		partialRange = range.cloneRange();
 		partialRange.setEnd( endContainer, endOffset );
-		appendRectList( rects, partialRange.getClientRects() );
+		Array.prototype.push.apply( rects, partialRange.getClientRects() );
 		return rects;
 	}
 
