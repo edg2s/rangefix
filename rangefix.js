@@ -70,7 +70,7 @@
 
 			Array.prototype.push.apply( rects, partialRange.getClientRects() );
 
-			endOffset = endContainer.parentNode.childNodes.indexOf( endContainer );
+			endOffset = Array.prototype.indexOf.call( endContainer.parentNode.childNodes, endContainer );
 			endContainer = endContainer.parentNode;
 		}
 
