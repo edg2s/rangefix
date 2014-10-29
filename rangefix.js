@@ -17,7 +17,7 @@
 	 * Broken browsers will return three rectangles instead of two.
 	 *
 	 * @private
-	 * @return {booean} The bug is present
+	 * @return {boolean} The bug is present
 	 */
 	function isGetClientRectsBroken() {
 		if ( isBroken === undefined ) {
