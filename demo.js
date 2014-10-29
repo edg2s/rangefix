@@ -24,13 +24,13 @@ $( function () {
 		$highlightsNative.append( $( '<div>' ).addClass( 'bounding' ).css( rect ) );
 
 		// Fixed
-		rects = rangeGetClientRects( range );
+		rects = RangeFix.getClientRects( range );
 		for ( i = 0, l = rects.length; i < l; i++ ) {
 			$highlightsFixed.append( $( '<div>' ).addClass( 'highlight' ).css( rects[i] ) );
 		}
 		$( '.highlights-fixed' ).empty().append( $highlightsFixed );
 
-		rect = rangeGetBoundingClientRect( range );
+		rect = RangeFix.getBoundingClientRect( range );
 		if ( rect ) {
 			$highlightsFixed.append( $( '<div>' ).addClass( 'bounding' ).css( rect ) );
 		}

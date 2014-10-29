@@ -1,6 +1,7 @@
 ( function () {
 
-	var isBroken;
+	var isBroken,
+		rangeFix = {};
 
 	/**
 	 * Polyfill for Array.indexOf
@@ -72,7 +73,7 @@
 	 * @param {Range} range Range
 	 * @return {ClientRect[]} List of ClientRect objects (similar to ClientRectList) describing range
 	 */
-	function rangeGetClientRects( range ) {
+	rangeFix.getClientRects = function ( range ) {
 		if ( !isGetClientRectsBroken() ) {
 			return range.getClientRects();
 		}
@@ -103,7 +104,7 @@
 		partialRange.setEnd( endContainer, endOffset );
 		Array.prototype.push.apply( rects, partialRange.getClientRects() );
 		return rects;
-	}
+	};
 
 	/**
 	 * Get bounding rectangle from a range
@@ -111,13 +112,13 @@
 	 * @param {Range} range Range
 	 * @return {Object} ClientRect-like object describing bounding rectangle
 	 */
-	function rangeGetBoundingClientRect( range ) {
+	rangeFix.getBoundingClientRect = function ( range ) {
 		if ( !isGetClientRectsBroken() ) {
 			return range.getBoundingClientRect();
 		}
 
 		var i, l, boundingRect,
-			rects = rangeGetClientRects( range );
+			rects = this.getClientRects( range );
 
 		for ( i = 0, l = rects.length; i < l; i++ ) {
 			if ( !boundingRect ) {
@@ -139,10 +140,9 @@
 			boundingRect.height = boundingRect.bottom - boundingRect.top;
 		}
 		return boundingRect;
-	}
+	};
 
 	// Expose
-	window.rangeGetClientRects = rangeGetClientRects;
-	window.rangeGetBoundingClientRect = rangeGetBoundingClientRect;
+	window.RangeFix = rangeFix;
 
 } )();
