@@ -47,7 +47,7 @@
 	 * Get client rectangles from a range
 	 *
 	 * @param {Range} range Range
-	 * @return {ClientRect[]} List of ClientRect objects (similar to ClientRectList) describing range
+	 * @return {ClientRectList|ClientRect[]} ClientRectList or list of ClientRect objects describing range
 	 */
 	rangeFix.getClientRects = function ( range ) {
 		if ( !isGetClientRectsBroken() ) {
@@ -86,15 +86,35 @@
 	 * Get bounding rectangle from a range
 	 *
 	 * @param {Range} range Range
-	 * @return {Object} ClientRect-like object describing bounding rectangle
+	 * @return {ClientRect|Object|null} ClientRect or ClientRect-like object describing
+	 *                                  bounding rectangle, or null if not computable
 	 */
 	rangeFix.getBoundingClientRect = function ( range ) {
+		var i, l, boundingRect,
+			rects = this.getClientRects( range ),
+			nativeBoundingRect = range.getBoundingClientRect();
+
+		// If there are no rects return null, otherwise we'll fall through to
+		// getBoundingClientRect, which in Chrome becomes [0,0,0,0].
+		if ( rects.length === 0 ) {
+			return null;
+		}
+
 		if ( !isGetClientRectsBroken() ) {
 			return range.getBoundingClientRect();
 		}
 
-		var i, l, boundingRect,
-			rects = this.getClientRects( range );
+		// When nativeRange is a collapsed cursor at the end of a line or
+		// the start of a line, the bounding rect is [0,0,0,0] in Chrome.
+		// getClientRects returns two rects, one correct, and one at the
+		// end of the next line / start of the previous line. We can't tell
+		// here which one to use so just pick the first. This matches
+		// Firefox's behaviour, which tells you the cursor is at the end
+		// of the previous line when it is at the start of the line.
+		// See https://code.google.com/p/chromium/issues/detail?id=426017
+		if ( nativeBoundingRect.width === 0 && nativeBoundingRect.height === 0 ) {
+			return rects[0];
+		}
 
 		for ( i = 0, l = rects.length; i < l; i++ ) {
 			if ( !boundingRect ) {
