@@ -1,10 +1,6 @@
 $( function () {
 
-	var selection = document.getSelection(),
-		hasSelectionChange = 'onselectionchange' in document,
-		events = hasSelectionChange ? 'selectionchange' : 'mousemove mouseup keypress keydown';
-
-	$( document ).on( events, function () {
+	function render() {
 		if ( selection.rangeCount === 0 ) {
 			return;
 		}
@@ -38,6 +34,13 @@ $( function () {
 		// Adjust for container position
 		offset = $( '.col-text' )[0].getBoundingClientRect();
 		$( '.highlights' ).css( { top: -offset.top, left: -offset.left } );
-	} );
+	}
+
+	var selection = document.getSelection(),
+		hasSelectionChange = 'onselectionchange' in document,
+		events = hasSelectionChange ? 'selectionchange' : 'mousemove mouseup keypress keydown';
+
+	$( document ).on( events, render );
+	$( window ).on( 'resize', render );
 
 } );
