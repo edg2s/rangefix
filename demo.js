@@ -1,5 +1,14 @@
 $( function () {
 
+	function cssProps( rect ) {
+		return {
+			left: rect.left,
+			top: rect.top,
+			width: Math.max( rect.width, 1 ),
+			height: Math.max( rect.height, 1 )
+		};
+	}
+
 	function render() {
 		if ( selection.rangeCount === 0 ) {
 			return;
@@ -12,23 +21,23 @@ $( function () {
 		// Native
 		rects = range.getClientRects();
 		for ( i = 0, l = rects.length; i < l; i++ ) {
-			$highlightsNative.append( $( '<div>' ).addClass( 'highlight' ).css( rects[i] ) );
+			$highlightsNative.append( $( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[i] ) ) );
 		}
 		$( '.highlights-native' ).empty().append( $highlightsNative );
 
 		rect = range.getBoundingClientRect();
-		$highlightsNative.append( $( '<div>' ).addClass( 'bounding' ).css( rect ) );
+		$highlightsNative.append( $( '<div>' ).addClass( 'bounding' ).css( cssProps( rect ) ) );
 
 		// Fixed
 		rects = RangeFix.getClientRects( range );
 		for ( i = 0, l = rects.length; i < l; i++ ) {
-			$highlightsFixed.append( $( '<div>' ).addClass( 'highlight' ).css( rects[i] ) );
+			$highlightsFixed.append( $( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[i] ) ) );
 		}
 		$( '.highlights-fixed' ).empty().append( $highlightsFixed );
 
 		rect = RangeFix.getBoundingClientRect( range );
 		if ( rect ) {
-			$highlightsFixed.append( $( '<div>' ).addClass( 'bounding' ).css( rect ) );
+			$highlightsFixed.append( $( '<div>' ).addClass( 'bounding' ).css( cssProps( rect ) ) );
 		}
 
 		// Adjust for container position
@@ -38,7 +47,7 @@ $( function () {
 
 	var selection = document.getSelection(),
 		hasSelectionChange = 'onselectionchange' in document,
-		events = hasSelectionChange ? 'selectionchange' : 'mousemove mouseup keypress keydown';
+		events = hasSelectionChange ? 'selectionchange' : 'mousemove mouseup keypress keydown keyup';
 
 	$( document ).on( events, render );
 	$( window ).on( 'resize', render );
