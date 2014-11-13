@@ -7,7 +7,7 @@
  */
 ( function () {
 
-	var isBroken,
+	var broken,
 		rangeFix = {};
 
 	/**
@@ -19,13 +19,16 @@
 	 * @private
 	 * @return {boolean} The bug is present
 	 */
-	function isGetClientRectsBroken() {
-		if ( isBroken === undefined ) {
-			var p1 = document.createElement( 'p' ),
+	function isBroken() {
+		if ( broken === undefined ) {
+			var boundingRect,
+				p1 = document.createElement( 'p' ),
 				p2 = document.createElement( 'p' ),
 				t1 = document.createTextNode( 'aa' ),
 				t2 = document.createTextNode( 'aa' ),
 				range = document.createRange();
+
+			broken = {};
 
 			p1.appendChild( t1 );
 			p2.appendChild( t2 );
@@ -35,12 +38,19 @@
 
 			range.setStart( t1, 1 );
 			range.setEnd( t2, 1 );
-			isBroken = range.getClientRects().length > 2;
+			broken.getClientRects = broken.getBoundingClientRect = range.getClientRects().length > 2;
+
+			if ( !broken.getBoundingClientRect ) {
+				// Safari doesn't return a valid bounding rect for collapsed ranges
+				range.setEnd( t1, 1 );
+				boundingRect = range.getBoundingClientRect();
+				broken.getBoundingClientRect = boundingRect.top === 0 && boundingRect.left === 0;
+			}
 
 			document.body.removeChild( p1 );
 			document.body.removeChild( p2 );
 		}
-		return isBroken;
+		return broken;
 	}
 
 	/**
@@ -50,7 +60,7 @@
 	 * @return {ClientRectList|ClientRect[]} ClientRectList or list of ClientRect objects describing range
 	 */
 	rangeFix.getClientRects = function ( range ) {
-		if ( !isGetClientRectsBroken() ) {
+		if ( !isBroken().getClientRects ) {
 			return range.getClientRects();
 		}
 
@@ -95,13 +105,13 @@
 			nativeBoundingRect = range.getBoundingClientRect();
 
 		// If there are no rects return null, otherwise we'll fall through to
-		// getBoundingClientRect, which in Chrome becomes [0,0,0,0].
+		// getBoundingClientRect, which in Chrome and Firefox becomes [0,0,0,0].
 		if ( rects.length === 0 ) {
 			return null;
 		}
 
-		if ( !isGetClientRectsBroken() ) {
-			return range.getBoundingClientRect();
+		if ( !isBroken().getBoundingClientRect ) {
+			return nativeBoundingRect;
 		}
 
 		// When nativeRange is a collapsed cursor at the end of a line or
