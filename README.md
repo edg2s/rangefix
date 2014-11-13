@@ -6,4 +6,4 @@ See https://code.google.com/p/chromium/issues/detail?id=324437
 
 Demo
 ====
-https://rawgit.com/edg2s/range-get-client-rects/master/demo.html
+https://rawgit.com/edg2s/rangefix/master/demo.html

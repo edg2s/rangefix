@@ -1,6 +1,6 @@
 /*!
- * RangeFix v0.1.0
- * https://github.com/edg2s/range-get-client-rects
+ * RangeFix v0.1.1
+ * https://github.com/edg2s/rangefix
  *
  * Copyright 2014 Ed Sanders.
  * Released under the MIT license
