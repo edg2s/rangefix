@@ -11,13 +11,22 @@
 		rangeFix = {};
 
 	/**
-	 * Check if the bug is present in the native function
+	 * Check if bugs are present in the native functions
 	 *
-	 * Constructs two lines of text and creates a range between them.
-	 * Broken browsers will return three rectangles instead of two.
+	 * For getClientRects, constructs two lines of text and
+	 * creates a range between them. Broken browsers will
+	 * return three rectangles instead of two.
+	 *
+	 * For getBoundingClientRect, create a collapsed range
+	 * and check if the resulting rect has non-zero offsets.
+	 *
+	 * getBoundingClientRect is also considered broken if
+	 * getClientRects is broken.
 	 *
 	 * @private
-	 * @return {boolean} The bug is present
+	 * @return {Object} Object containing boolean properties 'getClientRects'
+	 *                  and 'getBoundingClientRect' indicating bugs are present
+	 *                  in these functions.
 	 */
 	function isBroken() {
 		if ( broken === undefined ) {
