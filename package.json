@@ -1,7 +1,7 @@
 {
   "name": "RangeFix",
   "version": "0.1.2",
-  "description": "Workaround for browser bugs in Range.getClientRects and Range.getBoundingClientRect.",
+  "description": "Workaround for browser bugs in Range.prototype.getClientRects and Range.prototype.getBoundingClientRect.",
   "license": "MIT",
   "author": "Ed Sanders",
   "scripts": {
