@@ -14,14 +14,17 @@ $( function () {
 	}
 
 	function render() {
+		var i, l, rect, rects, offset,
+			$col, range, $highlightsNative, $highlightsFixed;
+
 		if ( selection.rangeCount === 0 ) {
 			return;
 		}
-		var i, l, rect, rects, offset,
-			$col = $( selection.focusNode ).closest( '.col' ),
-			range = selection.getRangeAt( 0 ),
-			$highlightsNative = $( '<div>' ),
-			$highlightsFixed = $( '<div>' );
+
+		$col = $( selection.focusNode ).closest( '.col' );
+		range = selection.getRangeAt( 0 );
+		$highlightsNative = $( '<div>' );
+		$highlightsFixed = $( '<div>' );
 
 		if ( !$col.length ) {
 			return;
@@ -30,7 +33,7 @@ $( function () {
 		// Native
 		rects = range.getClientRects();
 		for ( i = 0, l = rects.length; i < l; i++ ) {
-			$highlightsNative.append( $( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[i] ) ) );
+			$highlightsNative.append( $( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[ i ] ) ) );
 		}
 		$( '.highlights-native' ).empty().append( $highlightsNative );
 
@@ -40,7 +43,7 @@ $( function () {
 		// Fixed
 		rects = RangeFix.getClientRects( range );
 		for ( i = 0, l = rects.length; i < l; i++ ) {
-			$highlightsFixed.append( $( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[i] ) ) );
+			$highlightsFixed.append( $( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[ i ] ) ) );
 		}
 		$( '.highlights-fixed' ).empty().append( $highlightsFixed );
 
@@ -50,7 +53,7 @@ $( function () {
 		}
 
 		// Adjust for container position
-		offset = $col[0].getBoundingClientRect();
+		offset = $col[ 0 ].getBoundingClientRect();
 		$( '.highlights' ).css( { top: -offset.top, left: -offset.left } );
 	}
 

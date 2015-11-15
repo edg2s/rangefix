@@ -10,14 +10,11 @@
 	"unused": true,
 	"strict": false,
 
-	// Relaxing
-	"es5": false,
-
 	// Environment
 	"browser": true,
 	"jquery": true,
 
 	"globals": {
-		"RangeFix": true
+		"RangeFix": false
 	}
 }

@@ -1,5 +1,5 @@
 {
 	"preset": "wikimedia",
 
-	"requireSpacesInsideArrayBrackets": null
+	"requireDotNotation": { "allExcept": [ "keywords" ] }
 }
