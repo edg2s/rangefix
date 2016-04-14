@@ -1,6 +1,6 @@
 {
   "name": "RangeFix",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Workaround for browser bugs in Range.prototype.getClientRects and Range.prototype.getBoundingClientRect.",
   "license": "MIT",
   "author": "Ed Sanders",
@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "grunt": "0.4.5",
-    "grunt-contrib-jshint": "0.11.3",
-    "grunt-jscs": "2.1.0"
+    "grunt-contrib-jshint": "1.0.0",
+    "grunt-jscs": "2.8.0"
   }
 }
