@@ -25,4 +25,4 @@ boundingRect = RangeFix.getBoundingClientRect( range );
 
 Demo
 ====
-https://rawgit.com/edg2s/rangefix/master/demo.html
+http://edg2s.github.io/rangefix/
