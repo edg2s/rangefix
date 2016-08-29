@@ -1,5 +1,5 @@
 /*!
- * RangeFix v0.2.0
+ * RangeFix v0.2.1
  * https://github.com/edg2s/rangefix
  *
  * Copyright 2014-16 Ed Sanders.
@@ -64,9 +64,8 @@
 			document.body.removeChild( p2 );
 
 			// Detect IE<=10
-			/*jshint evil:true */
+			// eslint-disable-next-line no-new-func
 			jscriptVersion = window.ActiveXObject && new Function( '/*@cc_on return @_jscript_version; @*/' )();
-			/*jshint evil:false */
 			broken.ieZoom = jscriptVersion && jscriptVersion <= 10;
 		}
 		return broken;
