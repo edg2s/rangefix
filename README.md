@@ -2,7 +2,7 @@ Workaround for browser bugs in Range.prototype.getClientRects and Range.prototyp
 
 In particular:
 
-* A Chrome bug which results in selections spanning multiple nodes returning rects for all the parents of the endContainer. See https://code.google.com/p/chromium/issues/detail?id=324437
+* A Chrome bug which results in selections spanning multiple nodes returning rects for all the parents of the endContainer. See https://code.google.com/p/chromium/issues/detail?id=324437. This bug was fixed in Chrome 55.
 * A bug in IE (<=10) which results in scaled rectangles when using the browser's zoom feature.
 
 Usage
