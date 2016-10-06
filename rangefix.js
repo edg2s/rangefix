@@ -1,5 +1,5 @@
 /*!
- * RangeFix v0.2.1
+ * RangeFix v0.2.2
  * https://github.com/edg2s/rangefix
  *
  * Copyright 2014-16 Ed Sanders.
@@ -107,6 +107,29 @@
 	}
 
 	/**
+	 * Push one array-like object onto another.
+	 *
+	 * @param {Object} arr Array or array-like object. Will be modified
+	 * @param {Object} data Array-like object of items to insert.
+	 * @return {number} length of the new array
+	 */
+	function batchPush( arr, data ) {
+		// We need to push insertion in batches, because of parameter list length limits which vary
+		// cross-browser - 1024 seems to be a safe batch size on all browsers
+		var length,
+			index = 0,
+			batchSize = 1024;
+		while ( index < data.length ) {
+			// Call arr.push( i0, i1, i2, ..., i1023 );
+			length = Array.prototype.push.apply(
+				arr, Array.prototype.slice.call( data, index, index + batchSize )
+			);
+			index += batchSize;
+		}
+		return length;
+	}
+
+	/**
 	 * Get client rectangles from a range
 	 *
 	 * @param {Range} range Range
@@ -136,7 +159,7 @@
 			partialRange.setStart( endContainer, 0 );
 			partialRange.setEnd( endContainer, endOffset );
 
-			Array.prototype.push.apply( rects, partialRange.getClientRects() );
+			batchPush( rects, partialRange.getClientRects() );
 
 			endOffset = Array.prototype.indexOf.call( endContainer.parentNode.childNodes, endContainer );
 			endContainer = endContainer.parentNode;
@@ -146,7 +169,7 @@
 		// original start position to where we ended up.
 		partialRange = range.cloneRange();
 		partialRange.setEnd( endContainer, endOffset );
-		Array.prototype.push.apply( rects, partialRange.getClientRects() );
+		batchPush( rects, partialRange.getClientRects() );
 		return rects;
 	};
 
