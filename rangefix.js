@@ -119,6 +119,10 @@
 		var length,
 			index = 0,
 			batchSize = 1024;
+		if ( batchSize >= data.length ) {
+			// Avoid slicing for small lists
+			return Array.prototype.push.apply( arr, data );
+		}
 		while ( index < data.length ) {
 			// Call arr.push( i0, i1, i2, ..., i1023 );
 			length = Array.prototype.push.apply(
