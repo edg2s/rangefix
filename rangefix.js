@@ -32,38 +32,51 @@
 	 *                  in these functions/browsers.
 	 */
 	function isBroken() {
-		var boundingRect, p1, p2, t1, t2, range, jscriptVersion;
+		var boundingRect, p, span, t1, t2, img, range, jscriptVersion;
 
 		if ( broken === undefined ) {
-			p1 = document.createElement( 'p' );
-			p2 = document.createElement( 'p' );
+			p = document.createElement( 'p' );
+			span = document.createElement( 'span' );
 			t1 = document.createTextNode( 'aa' );
 			t2 = document.createTextNode( 'aa' );
+			img = document.createElement( 'img' );
+			img.setAttribute( 'src', '#null' );
 			range = document.createRange();
 
 			broken = {};
 
-			p1.appendChild( t1 );
-			p2.appendChild( t2 );
+			p.appendChild( t1 );
+			p.appendChild( span );
+			span.appendChild( img );
+			span.appendChild( t2 );
 
-			document.body.appendChild( p1 );
-			document.body.appendChild( p2 );
+			document.body.appendChild( p );
 
 			range.setStart( t1, 1 );
-			range.setEnd( t2, 1 );
-			broken.getClientRects = broken.getBoundingClientRect = range.getClientRects().length > 2;
+			range.setEnd( span, 0 );
+
+			// A selection ending just inside another element shouldn't select that whole element
+			// Broken in Chrome <= 55 and Firefox
+			broken.getClientRects = broken.getBoundingClientRect = range.getClientRects().length > 1;
+
+			if ( !broken.getClientRects ) {
+				// A selection across a wrapped image should give a rect for that image
+				// Regression in Chrome 55
+				range.setEnd( t2, 1 );
+				broken.getClientRects = broken.getBoundingClientRect = range.getClientRects().length < 3;
+			}
 
 			if ( !broken.getBoundingClientRect ) {
 				// Safari doesn't return a valid bounding rect for collapsed ranges
-				range.setEnd( t1, 1 );
+				// Equivalent to range.collapse( true ) which isn't well supported
+				range.setEnd( range.startContainer, range.startOffset );
 				boundingRect = range.getBoundingClientRect();
 				broken.getBoundingClientRect = boundingRect.top === 0 && boundingRect.left === 0;
 			}
 
-			document.body.removeChild( p1 );
-			document.body.removeChild( p2 );
+			document.body.removeChild( p );
 
-			// Detect IE<=10
+			// Detect IE<=10 where zooming scaling is broken
 			// eslint-disable-next-line no-new-func
 			jscriptVersion = window.ActiveXObject && new Function( '/*@cc_on return @_jscript_version; @*/' )();
 			broken.ieZoom = jscriptVersion && jscriptVersion <= 10;
