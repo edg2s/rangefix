@@ -1,8 +1,8 @@
 /*!
- * RangeFix v0.2.2
+ * RangeFix v0.2.3
  * https://github.com/edg2s/rangefix
  *
- * Copyright 2014-16 Ed Sanders.
+ * Copyright 2014-17 Ed Sanders.
  * Released under the MIT license
  */
 ( function () {
