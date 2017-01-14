@@ -1,9 +1,14 @@
 {
-	"name": "RangeFix",
+	"name": "rangefix",
 	"version": "0.2.3",
 	"description": "Workaround for browser bugs in Range.prototype.getClientRects and Range.prototype.getBoundingClientRect.",
 	"license": "MIT",
 	"author": "Ed Sanders",
+	"homepage": "http://edg2s.github.io/rangefix/",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/edg2s/rangefix"
+	},
 	"scripts": {
 		"test": "grunt test"
 	},
