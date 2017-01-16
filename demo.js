@@ -22,6 +22,9 @@ $( function () {
 		}
 
 		$col = $( selection.focusNode ).closest( '.col' );
+		if ( !$col.is( '.col-text' ) ) {
+			return;
+		}
 		range = selection.getRangeAt( 0 );
 		$highlightsNative = $( '<div>' );
 		$highlightsFixed = $( '<div>' );
@@ -60,4 +63,7 @@ $( function () {
 	$( document ).on( events, render );
 	$( window ).on( 'resize', render );
 
+	$( '.ce' ).on( 'input keyup', function () {
+		$( '.ce-mirror' ).html( $( this ).html() );
+	} );
 } );

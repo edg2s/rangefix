@@ -5,12 +5,12 @@
 	margin-right: 3%;
 }
 
-.col:focus {
-	outline: none;
+.ce-mirror {
+	opacity: 0.5;
 }
 
-.col-preview {
-	color: #999;
+.ce:focus {
+	outline: none;
 }
 
 .highlights {
@@ -21,14 +21,30 @@
 
 .highlight {
 	position: absolute;
-	background: red;
-	box-shadow: inset 0 0 0 1px #600;
 }
 
 .bounding {
 	position: absolute;
-	border: 1px solid #300;
+	border: 1px solid;
 	padding: 2px;
 	margin: -3px 0 0 -3px;
 	border-radius: 3px;
+}
+
+.highlights-native .highlight {
+	background: #f00;
+	box-shadow: inset 0 0 0 1px #600;
+}
+
+.highlights-native .bounding {
+	border-color: #300;
+}
+
+.highlights-fixed .highlight {
+	background: #0a0;
+	box-shadow: inset 0 0 0 1px #060;
+}
+
+.highlights-fixed .bounding {
+	border-color: #030;
 }
