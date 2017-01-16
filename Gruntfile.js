@@ -4,12 +4,18 @@
 
 module.exports = function ( grunt ) {
 	grunt.loadNpmTasks( 'grunt-eslint' );
+	grunt.loadNpmTasks( 'grunt-stylelint' );
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 		eslint: {
 			dev: [
 				'*.js'
+			]
+		},
+		stylelint: {
+			dev: [
+				'*.css'
 			]
 		},
 		watch: {
@@ -21,6 +27,6 @@ module.exports = function ( grunt ) {
 		}
 	} );
 
-	grunt.registerTask( 'test', [ 'eslint' ] );
+	grunt.registerTask( 'test', [ 'eslint', 'stylelint' ] );
 	grunt.registerTask( 'default', 'test' );
 };
