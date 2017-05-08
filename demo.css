@@ -10,7 +10,7 @@
 }
 
 .ce:focus {
-	outline: none;
+	outline: 0;
 }
 
 .highlights {

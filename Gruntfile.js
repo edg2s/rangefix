@@ -9,19 +9,19 @@ module.exports = function ( grunt ) {
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 		eslint: {
-			dev: [
+			all: [
 				'*.js'
 			]
 		},
 		stylelint: {
-			dev: [
+			all: [
 				'*.css'
 			]
 		},
 		watch: {
 			files: [
 				'.{eslint.json}',
-				'<%= eslint.dev %>'
+				'<%= eslint.all %>'
 			],
 			tasks: '_test'
 		}
