@@ -254,4 +254,4 @@
 	// Expose
 	window.RangeFix = rangeFix;
 
-} )();
+}() );

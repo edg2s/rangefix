@@ -1,3 +1,5 @@
+/* eslint-env jquery */
+
 $( function () {
 
 	var selection = document.getSelection(),
