@@ -5,7 +5,18 @@
  * Copyright 2014-17 Ed Sanders.
  * Released under the MIT license
  */
-( function () {
+( function ( root, factory ) {
+	if ( typeof define === 'function' && define.amd ) {
+		// AMD. Register as an anonymous module.
+		define( factory );
+	} else if ( typeof exports === 'object' && typeof exports.nodeName !== 'string' ) {
+		// CommonJS
+		module.exports = factory();
+	} else {
+		// Browser globals
+		root.RangeFix = factory();
+	}
+}( this, function () {
 
 	var broken,
 		rangeFix = {};
@@ -254,4 +265,4 @@
 	// Expose
 	window.RangeFix = rangeFix;
 
-}() );
+} ) );
