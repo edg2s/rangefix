@@ -262,7 +262,5 @@
 		return boundingRect;
 	};
 
-	// Expose
-	window.RangeFix = rangeFix;
-
+	return rangeFix;
 } ) );
