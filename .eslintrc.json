@@ -1,7 +1,9 @@
 {
 	"extends": "wikimedia",
 	"env": {
-		"browser": true
+		"browser": true,
+		"commonjs": true,
+		"amd": true
 	},
 	"globals": {
 		"RangeFix": false
