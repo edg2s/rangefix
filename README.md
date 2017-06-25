@@ -20,25 +20,21 @@ Usage
 **CommonJS**
 
 ```javascript
-const RangeFix = require('rangefix');
+var RangeFix = require( 'rangefix' );
 ```
 
 **AMD**
 
 ```javascript
-define(['rangefix'], function(Rangefix) {
-  // ...
-});
+define( [ 'rangefix' ], function( Rangefix ) {
+	// ...
+} );
 ```
 
 **Browser global**
 
 ```html
 <script src="path/to/rangefix.js"></script>
-<script>
-  // RangeFix will be available on window
-  const RangeFix = window.RangeFix;
-</script>
 ```
 
 Replace instances of `Range.prototype.getClientRects`/`getBoundingClientRect` with `RangeFix.getClientRects`/`getBoundingClientRect`:
