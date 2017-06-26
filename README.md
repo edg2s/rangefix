@@ -7,9 +7,35 @@ In particular:
 * A regression in Chrome 55 where images get no rectangle when they are wrapped in a node and you select across them.
 * A bug in IE (<=10) which results in scaled rectangles when using the browser's zoom feature.
 
+Install
+=======
+
+```bash
+$ npm install rangefix
+```
+
 Usage
 =====
-Include the rangefix.js library in your project.
+
+**CommonJS**
+
+```javascript
+var RangeFix = require( 'rangefix' );
+```
+
+**AMD**
+
+```javascript
+define( [ 'rangefix' ], function( Rangefix ) {
+	// ...
+} );
+```
+
+**Browser global**
+
+```html
+<script src="path/to/rangefix.js"></script>
+```
 
 Replace instances of `Range.prototype.getClientRects`/`getBoundingClientRect` with `RangeFix.getClientRects`/`getBoundingClientRect`:
 
