@@ -42,7 +42,7 @@
 	 *                  'getBoundingClientRect' and 'ieZoom' indicating bugs are present
 	 *                  in these functions/browsers.
 	 */
-	function isBroken() {
+	rangeFix.isBroken = function () {
 		var boundingRect, p, span, t1, t2, img, range, jscriptVersion;
 
 		if ( broken === undefined ) {
@@ -90,10 +90,10 @@
 			// Detect IE<=10 where zooming scaling is broken
 			// eslint-disable-next-line no-new-func
 			jscriptVersion = window.ActiveXObject && new Function( '/*@cc_on return @_jscript_version; @*/' )();
-			broken.ieZoom = jscriptVersion && jscriptVersion <= 10;
+			broken.ieZoom = !!jscriptVersion && jscriptVersion <= 10;
 		}
 		return broken;
-	}
+	};
 
 	/**
 	 * Compensate for the current zoom level in IE<=10
@@ -165,7 +165,7 @@
 	 */
 	rangeFix.getClientRects = function ( range ) {
 		var rects, endContainer, endOffset, partialRange,
-			broken = isBroken();
+			broken = this.isBroken();
 
 		if ( broken.ieZoom ) {
 			return zoomFix( range.getClientRects() );
@@ -219,7 +219,7 @@
 		}
 
 		nativeBoundingRect = range.getBoundingClientRect();
-		broken = isBroken();
+		broken = this.isBroken();
 
 		if ( broken.ieZoom ) {
 			return zoomFix( nativeBoundingRect );

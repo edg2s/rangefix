@@ -50,3 +50,29 @@
 .highlights-fixed .bounding {
 	border-color: #030;
 }
+
+.features {
+	margin: 20px auto;
+	border-collapse: collapse;
+}
+
+.features caption {
+	font-weight: bold;
+}
+
+.features td {
+	border: 1px solid #bbb;
+	padding: 5px 10px;
+}
+
+.features .working {
+	background: #beb;
+}
+
+.features .broken {
+	background: #ebb;
+}
+
+.features .isBroken-getClientRects {
+	width: 6em;
+}

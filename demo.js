@@ -2,9 +2,18 @@
 
 $( function () {
 
-	var selection = document.getSelection(),
+	var prop, val,
+		isBroken = RangeFix.isBroken(),
+		selection = document.getSelection(),
 		hasSelectionChange = 'onselectionchange' in document,
 		events = hasSelectionChange ? 'selectionchange' : 'mousemove mouseup keypress keydown keyup';
+
+	for ( prop in isBroken ) {
+		val = isBroken[ prop ];
+		$( '.isBroken-' + prop )
+			.toggleClass( 'broken', val ).toggleClass( 'working', !val )
+			.text( val ? 'Broken' : 'Working' );
+	}
 
 	function cssProps( rect ) {
 		return {
