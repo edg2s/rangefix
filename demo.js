@@ -24,6 +24,10 @@ $( function () {
 		};
 	}
 
+	function updateMirrors() {
+		$( '.ce-mirror' ).html( $( '.ce' ).html() );
+	}
+
 	function render( range ) {
 		var i, l, rect, rects, offset,
 			$col, $highlightsNative, $highlightsFixed;
@@ -76,8 +80,10 @@ $( function () {
 	$( window ).on( 'resize', render.bind( this, null ) );
 
 	$( '.ce' ).on( 'input keyup', function () {
-		$( '.ce-mirror' ).html( $( this ).html() );
+		updateMirrors();
 	} );
+
+	updateMirrors();
 
 	$( '.testRange' ).on( 'click', function ( e ) {
 		var range = document.createRange(),
