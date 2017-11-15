@@ -71,10 +71,12 @@
 			broken.getClientRects = broken.getBoundingClientRect = range.getClientRects().length > 1;
 
 			if ( !broken.getClientRects ) {
-				// A selection across a wrapped image should give a rect for that image
-				// Regression in Chrome 55
+				// Regression in Chrome 55:
+				// A selection across a wrapped image should give a rect for that image.
+				// In Chrome we get two rectangles, one for each text node. In working browsers
+				// we get three or more, or in Edge we get one surrounding the text and the image.
 				range.setEnd( t2, 1 );
-				broken.getClientRects = broken.getBoundingClientRect = range.getClientRects().length < 3;
+				broken.getClientRects = broken.getBoundingClientRect = range.getClientRects().length === 2;
 			}
 
 			if ( !broken.getBoundingClientRect ) {
