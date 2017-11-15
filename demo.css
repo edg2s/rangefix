@@ -1,8 +1,10 @@
 .col {
-	float: left;
-	width: 30%;
+	display: inline-block;
+	vertical-align: top;
+	box-sizing: border-box;
+	width: 33%;
 	position: relative;
-	margin-right: 3%;
+	padding-right: 0.5em;
 }
 
 .ce-mirror {
