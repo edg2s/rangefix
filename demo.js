@@ -24,25 +24,26 @@ $( function () {
 		};
 	}
 
-	function render() {
+	function render( range ) {
 		var i, l, rect, rects, offset,
-			$col, range, $highlightsNative, $highlightsFixed;
+			$col, $highlightsNative, $highlightsFixed;
 
-		if ( selection.rangeCount === 0 ) {
-			return;
+		if ( !range ) {
+			if ( selection.rangeCount === 0 ) {
+				return;
+			}
+
+			$col = $( selection.focusNode ).closest( '.col' );
+			if ( !$col.is( '.col-text' ) ) {
+				return;
+			}
+			range = selection.getRangeAt( 0 );
+		} else {
+			$col = $( '.col-text' );
 		}
 
-		$col = $( selection.focusNode ).closest( '.col' );
-		if ( !$col.is( '.col-text' ) ) {
-			return;
-		}
-		range = selection.getRangeAt( 0 );
 		$highlightsNative = $( '<div>' );
 		$highlightsFixed = $( '<div>' );
-
-		if ( !$col.length ) {
-			return;
-		}
 
 		// Native
 		rects = range.getClientRects();
@@ -71,10 +72,24 @@ $( function () {
 		$( '.highlights' ).css( { top: -offset.top, left: -offset.left } );
 	}
 
-	$( document ).on( events, render );
-	$( window ).on( 'resize', render );
+	$( document ).on( events, render.bind( this, null ) );
+	$( window ).on( 'resize', render.bind( this, null ) );
 
 	$( '.ce' ).on( 'input keyup', function () {
 		$( '.ce-mirror' ).html( $( this ).html() );
+	} );
+
+	$( '.testRange' ).on( 'click', function ( e ) {
+		var range = document.createRange(),
+			testNode = $( '.testNode' )[ 0 ];
+
+		range.setStart( testNode.firstChild, 1 );
+		if ( +$( e.target ).data( 'range' ) === 1 ) {
+			range.setEnd( testNode.firstChild.nextSibling, 0 );
+		} else {
+			range.setEnd( testNode.firstChild.nextSibling.firstChild.nextSibling, 3 );
+		}
+		render( range );
+
 	} );
 } );

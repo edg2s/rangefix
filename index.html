@@ -14,7 +14,7 @@
 					<p>Praesent a convallis magna. <b>Fusce rutrum finibus purus ut blandit. Donec ultrices nunc sit amet felis semper, et auctor lorem auctor. <i>Donec purus libero, sagittis vitae quam sit amet,</i> volutpat tristique purus. Nam eleifend sodales nulla a consequat.</b> Donec malesuada blandit quam, luctus semper nisl tempus tempor. Quisque egestas malesuada consectetur.</p>
 
 					<p>In the next paragraph place your cursor inside 'Lorem' then extend the selection right over the image (shift+right). When you shrink the selection back with shift+left you will get too many rectangles in Firefox.</p>
-					<p>Lorem <u><img src="example.png"> ipsum </u></p>
+					<p class="testNode">Lorem <u><img src="example.png"> ipsum </u></p>
 				</div>
 			</div><div class="col col-preview">
 				<div class="highlights highlights-native"></div>
@@ -39,6 +39,13 @@
 					<p>Lorem <u><img src="example.png"> ipsum </u></p>
 				</div>
 			</div></div>
+
+		<div class="col">
+			<p>
+				In some browsers, rectangles are only broken if the range is not added to the document's selection. Click this button create a problematic range programmatically and render it:<br />
+				<input type="button" value="Firefox/Safari bug" class="testRange" data-range="1" />
+				<input type="button" value="Chrome 55 bug" class="testRange" data-range="2" />
+			</p>
 		</div>
 
 		<table class="features">
