@@ -51,7 +51,7 @@
 			t1 = document.createTextNode( 'aa' );
 			t2 = document.createTextNode( 'aa' );
 			img = document.createElement( 'img' );
-			img.setAttribute( 'src', '#null' );
+			img.setAttribute( 'src', 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' );
 			range = document.createRange();
 
 			broken = {};
