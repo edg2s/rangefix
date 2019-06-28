@@ -52,7 +52,9 @@ $( function () {
 		// Native
 		rects = range.getClientRects();
 		for ( i = 0, l = rects.length; i < l; i++ ) {
-			$highlightsNative.append( $( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[ i ] ) ) );
+			$highlightsNative.append(
+				$( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[ i ] ) ).append( $( '<span>' ).text( i ) )
+			);
 		}
 		$( '.highlights-native' ).empty().append( $highlightsNative );
 
@@ -62,7 +64,9 @@ $( function () {
 		// Fixed
 		rects = RangeFix.getClientRects( range );
 		for ( i = 0, l = rects.length; i < l; i++ ) {
-			$highlightsFixed.append( $( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[ i ] ) ) );
+			$highlightsFixed.append(
+				$( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[ i ] ) ).append( $( '<span>' ).text( i ) )
+			);
 		}
 		$( '.highlights-fixed' ).empty().append( $highlightsFixed );
 
