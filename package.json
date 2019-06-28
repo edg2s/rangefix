@@ -1,6 +1,6 @@
 {
 	"name": "rangefix",
-	"version": "0.2.7",
+	"version": "0.2.8",
 	"description": "Workaround for browser bugs in Range.prototype.getClientRects and Range.prototype.getBoundingClientRect.",
 	"license": "MIT",
 	"author": "Ed Sanders",
