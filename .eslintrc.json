@@ -1,12 +1,14 @@
 {
-	"extends": "wikimedia",
+	"extends": [
+		"wikimedia/client",
+		"wikimedia/jquery"
+	],
 	"env": {
-		"browser": true,
 		"commonjs": true,
 		"amd": true
 	},
 	"globals": {
-		"RangeFix": false
+		"RangeFix": "readonly"
 	},
 	"rules": {
 		"max-len": "off"

@@ -1,4 +1,4 @@
-/* eslint-env jquery */
+/* eslint-disable no-jquery/no-global-selector */
 
 $( function () {
 
