@@ -3,6 +3,7 @@
 $( function () {
 
 	var prop, val,
+		isBrokenOriginal = RangeFix.isBroken,
 		isBroken = RangeFix.isBroken(),
 		selection = document.getSelection(),
 		hasSelectionChange = 'onselectionchange' in document,
@@ -61,6 +62,16 @@ $( function () {
 		rect = range.getBoundingClientRect();
 		$highlightsNative.append( $( '<div>' ).addClass( 'bounding' ).css( cssProps( rect ) ) );
 
+		// Mock isBroken
+		RangeFix.isBroken = function () {
+			return {
+				getClientRects: true,
+				getBoundingClientRect: true,
+				// ieZoom can't be mocked as it will break in non-IE clients
+				ieZoom: isBroken.ieZoom
+			};
+		};
+
 		// Fixed
 		rects = RangeFix.getClientRects( range );
 		for ( i = 0, l = rects.length; i < l; i++ ) {
@@ -74,6 +85,9 @@ $( function () {
 		if ( rect ) {
 			$highlightsFixed.append( $( '<div>' ).addClass( 'bounding' ).css( cssProps( rect ) ) );
 		}
+
+		// Restore
+		RangeFix.isBroken = isBrokenOriginal;
 
 		// Adjust for container position
 		offset = $col[ 0 ].getBoundingClientRect();
