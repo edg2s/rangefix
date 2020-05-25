@@ -1,5 +1,5 @@
 /*!
- * RangeFix v0.2.8
+ * RangeFix v0.2.9
  * https://github.com/edg2s/rangefix
  *
  * Copyright 2014-17 Ed Sanders.
