@@ -11,13 +11,10 @@
 	},
 	"main": "rangefix.js",
 	"scripts": {
-		"test": "grunt test"
+		"test": "eslint . && stylelint *.css"
 	},
 	"devDependencies": {
 		"eslint-config-wikimedia": "0.15.3",
-		"grunt": "1.1.0",
-		"grunt-eslint": "23.0.0",
-		"grunt-stylelint": "0.15.0",
 		"stylelint": "13.5.0",
 		"stylelint-config-wikimedia": "0.10.1"
 	}
