@@ -10,6 +10,9 @@
 		"url": "https://github.com/edg2s/rangefix"
 	},
 	"main": "rangefix.js",
+	"files": [
+		"rangefix.js"
+	],
 	"scripts": {
 		"test": "eslint . && stylelint *.css"
 	},
