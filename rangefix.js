@@ -186,13 +186,21 @@
 		endOffset = range.endOffset;
 		partialRange = document.createRange();
 
+		function indexOf( child ) {
+			var i = 0;
+			while ( ( child = child.previousSibling ) ) {
+				i++;
+			}
+			return i;
+		}
+
 		while ( endContainer !== range.commonAncestorContainer ) {
 			partialRange.setStart( endContainer, 0 );
 			partialRange.setEnd( endContainer, endOffset );
 
 			batchPush( endContainerRects, partialRange.getClientRects() );
 
-			endOffset = Array.prototype.indexOf.call( endContainer.parentNode.childNodes, endContainer );
+			endOffset = indexOf( endContainer );
 			endContainer = endContainer.parentNode;
 		}
 
