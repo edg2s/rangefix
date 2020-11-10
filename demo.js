@@ -107,12 +107,22 @@ $( function () {
 		var range = document.createRange(),
 			testNode = $( '.testNode' )[ 0 ];
 
-		range.setStart( testNode.firstChild, 1 );
-		if ( +$( e.target ).data( 'range' ) === 1 ) {
-			range.setEnd( testNode.firstChild.nextSibling, 0 );
-		} else {
-			range.setEnd( testNode.firstChild.nextSibling.firstChild.nextSibling, 3 );
+		switch ( +$( e.target ).data( 'range' ) ) {
+			case 1:
+				range.setStart( testNode.firstChild, 1 );
+				range.setEnd( testNode.firstChild.nextSibling, 0 );
+				break;
+			case 2:
+				range.setStart( testNode.firstChild, 1 );
+				range.setEnd( testNode.firstChild.nextSibling.firstChild.nextSibling, 3 );
+				break;
+			case 3:
+				range.setStart( testNode, 0 );
+				range.setEnd( testNode, 2 );
+				break;
 		}
+		selection.removeAllRanges();
+		selection.addRange( range );
 		render( range );
 
 	} );
