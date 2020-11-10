@@ -121,6 +121,8 @@ $( function () {
 				range.setEnd( testNode, 2 );
 				break;
 		}
+		selection.removeAllRanges();
+		selection.addRange( range );
 		render( range );
 
 	} );
