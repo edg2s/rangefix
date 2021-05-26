@@ -5,6 +5,11 @@
  * Copyright 2014-17 Ed Sanders.
  * Released under the MIT license
  */
+
+/**
+ * @external DOMRectList
+ */
+
 ( function ( root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD. Register as an anonymous module.
@@ -43,16 +48,14 @@
 	 *                  in these functions/browsers.
 	 */
 	rangeFix.isBroken = function () {
-		var boundingRect, p, span, t1, t2, img, range, jscriptVersion;
-
 		if ( broken === undefined ) {
-			p = document.createElement( 'p' );
-			span = document.createElement( 'span' );
-			t1 = document.createTextNode( 'aa' );
-			t2 = document.createTextNode( 'aa' );
-			img = document.createElement( 'img' );
+			var p = document.createElement( 'p' );
+			var span = document.createElement( 'span' );
+			var t1 = document.createTextNode( 'aa' );
+			var t2 = document.createTextNode( 'aa' );
+			var img = document.createElement( 'img' );
 			img.setAttribute( 'src', 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' );
-			range = document.createRange();
+			var range = document.createRange();
 
 			broken = {};
 
@@ -83,7 +86,7 @@
 				// Safari doesn't return a valid bounding rect for collapsed ranges
 				// Equivalent to range.collapse( true ) which isn't well supported
 				range.setEnd( range.startContainer, range.startOffset );
-				boundingRect = range.getBoundingClientRect();
+				var boundingRect = range.getBoundingClientRect();
 				broken.getBoundingClientRect = boundingRect.top === 0 && boundingRect.left === 0;
 			}
 
@@ -91,7 +94,7 @@
 
 			// Detect IE<=10 where zooming scaling is broken
 			// eslint-disable-next-line no-new-func
-			jscriptVersion = window.ActiveXObject && new Function( '/*@cc_on return @_jscript_version; @*/' )();
+			var jscriptVersion = window.ActiveXObject && new Function( '/*@cc_on return @_jscript_version; @*/' )();
 			broken.ieZoom = !!jscriptVersion && jscriptVersion <= 10;
 		}
 		return broken;
@@ -104,11 +107,10 @@
 	 * so using them in your CSS will result in them getting scaled again.
 	 *
 	 * @private
-	 * @param {ClientRectList|ClientRect[]|ClientRect|Object|null} rectOrRects Rect or list of rects to fix
-	 * @return {ClientRectList|ClientRect[]|ClientRect|Object|null} Fixed rect or list of rects
+	 * @param {DOMRectList|DOMRect[]|DOMRect|Object|null} rectOrRects Rect or list of rects to fix
+	 * @return {DOMRectList|DOMRect[]|DOMRect|Object|null} Fixed rect or list of rects
 	 */
 	function zoomFix( rectOrRects ) {
-		var zoom;
 		if ( !rectOrRects ) {
 			return rectOrRects;
 		}
@@ -121,7 +123,7 @@
 			return Array.prototype.map.call( rectOrRects, zoomFix );
 		}
 		// Single rect: Adjust by zoom factor
-		zoom = screen.deviceXDPI / screen.logicalXDPI;
+		var zoom = screen.deviceXDPI / screen.logicalXDPI;
 		return {
 			top: rectOrRects.top / zoom,
 			bottom: rectOrRects.bottom / zoom,
@@ -142,13 +144,13 @@
 	function batchPush( arr, data ) {
 		// We need to push insertion in batches, because of parameter list length limits which vary
 		// cross-browser - 1024 seems to be a safe batch size on all browsers
-		var length,
-			index = 0,
+		var index = 0,
 			batchSize = 1024;
 		if ( batchSize >= data.length ) {
 			// Avoid slicing for small lists
 			return Array.prototype.push.apply( arr, data );
 		}
+		var length;
 		while ( index < data.length ) {
 			// Call arr.push( i0, i1, i2, ..., i1023 );
 			length = Array.prototype.push.apply(
@@ -163,15 +165,14 @@
 	 * Get client rectangles from a range
 	 *
 	 * @param {Range} range Range
-	 * @return {ClientRectList|ClientRect[]} ClientRectList or list of ClientRect objects describing range
+	 * @return {DOMRectList|DOMRect[]} DOMRectList or list of DOMRect objects describing range
 	 */
 	rangeFix.getClientRects = function ( range ) {
-		var rects, endContainer, endContainerRects, endOffset, partialRange,
-			broken = this.isBroken();
+		var isBroken = this.isBroken();
 
-		if ( broken.ieZoom ) {
+		if ( isBroken.ieZoom ) {
 			return zoomFix( range.getClientRects() );
-		} else if ( !broken.getClientRects ) {
+		} else if ( !isBroken.getClientRects ) {
 			return range.getClientRects();
 		}
 
@@ -180,11 +181,11 @@
 		// we reach the common ancestor, then we can add on from start to where
 		// we got up to
 		// https://code.google.com/p/chromium/issues/detail?id=324437
-		rects = [];
-		endContainerRects = [];
-		endContainer = range.endContainer;
-		endOffset = range.endOffset;
-		partialRange = document.createRange();
+		var rects = [];
+		var endContainerRects = [];
+		var endContainer = range.endContainer;
+		var endOffset = range.endOffset;
+		var partialRange = document.createRange();
 
 		function indexOf( child ) {
 			var i = 0;
@@ -217,12 +218,11 @@
 	 * Get bounding rectangle from a range
 	 *
 	 * @param {Range} range Range
-	 * @return {ClientRect|Object|null} ClientRect or ClientRect-like object describing
+	 * @return {DOMRect|Object|null} DOMRect or DOMRect-like object describing
 	 *                                  bounding rectangle, or null if not computable
 	 */
 	rangeFix.getBoundingClientRect = function ( range ) {
-		var i, l, boundingRect, rect, nativeBoundingRect, broken,
-			rects = this.getClientRects( range );
+		var rects = this.getClientRects( range );
 
 		// If there are no rects return null, otherwise we'll fall through to
 		// getBoundingClientRect, which in Chrome and Firefox becomes [0,0,0,0].
@@ -230,12 +230,12 @@
 			return null;
 		}
 
-		nativeBoundingRect = range.getBoundingClientRect();
-		broken = this.isBroken();
+		var nativeBoundingRect = range.getBoundingClientRect();
+		var isBroken = this.isBroken();
 
-		if ( broken.ieZoom ) {
+		if ( isBroken.ieZoom ) {
 			return zoomFix( nativeBoundingRect );
-		} else if ( !broken.getBoundingClientRect ) {
+		} else if ( !isBroken.getBoundingClientRect ) {
 			return nativeBoundingRect;
 		}
 
@@ -251,8 +251,9 @@
 			return rects[ 0 ];
 		}
 
-		for ( i = 0, l = rects.length; i < l; i++ ) {
-			rect = rects[ i ];
+		var boundingRect;
+		for ( var i = 0, l = rects.length; i < l; i++ ) {
+			var rect = rects[ i ];
 			if ( !boundingRect ) {
 				boundingRect = {
 					left: rect.left,
