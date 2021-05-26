@@ -14,7 +14,7 @@
 		"rangefix.js"
 	],
 	"scripts": {
-		"test": "eslint . && stylelint *.css"
+		"test": "eslint . && stylelint **/*.css"
 	},
 	"devDependencies": {
 		"eslint-config-wikimedia": "0.20.0",

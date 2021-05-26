@@ -1,7 +1,6 @@
 {
 	"extends": [
-		"wikimedia/client",
-		"wikimedia/jquery"
+		"wikimedia/client"
 	],
 	"env": {
 		"commonjs": true,
