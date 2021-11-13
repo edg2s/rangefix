@@ -6,10 +6,6 @@
  * Released under the MIT license
  */
 
-/**
- * @external DOMRectList
- */
-
 ( function ( root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD. Register as an anonymous module.
