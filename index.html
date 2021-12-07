@@ -14,7 +14,8 @@
 					<p>Praesent a convallis magna. <b>Fusce rutrum finibus purus ut blandit. Donec ultrices nunc sit amet felis semper, et auctor lorem auctor. <i>Donec purus libero, sagittis vitae quam sit amet,</i> volutpat tristique purus. Nam eleifend sodales nulla a consequat.</b> Donec malesuada blandit quam, luctus semper nisl tempus tempor. Quisque egestas malesuada consectetur.</p>
 
 					<p>In the next paragraph place your cursor inside 'Lorem' then extend the selection right over the image (shift+right). When you shrink the selection back with shift+left you will get too many rectangles in Firefox.</p>
-					<p class="testNode">Lorem <u><img src="example.png"> ipsum </u></p>
+					<p class="testNode1">Lorem <u><img src="example.png"> ipsum </u></p>
+					<p class="testNode2" style="width: 26px;">Foo bar</p>
 				</div>
 			</div><div class="col col-preview">
 				<h2>Native</h2>
@@ -39,6 +40,13 @@
 			</p>
 			<p>
 				<input type="button" value="Firefox triple click bug" class="testRange" data-range="3" />
+			</p>
+			<p>
+				Selecting across line wraps can cause bounding rect bugs:
+			</p>
+			<p>
+				<input type="button" value="Chrome" class="testRange" data-range="4" />
+				<input type="button" value="Firefox" class="testRange" data-range="5" />
 			</p>
 		</div>
 

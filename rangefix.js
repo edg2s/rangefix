@@ -22,6 +22,16 @@
 	var broken,
 		rangeFix = {};
 
+	function rectExceedsBoundingRect( range, rectOffset, edge ) {
+		var rects = range.getClientRects();
+		if ( rects.length === 2 ) {
+			var rect = range.getBoundingClientRect();
+			// Second line rect exceeds the boundary of the bounding rect
+			return rects[ rectOffset ][ edge ] < rect[ edge ];
+		}
+		return false;
+	}
+
 	/**
 	 * Check if bugs are present in the native functions
 	 *
@@ -45,7 +55,7 @@
 	 */
 	rangeFix.isBroken = function () {
 		if ( broken === undefined ) {
-			var p = document.createElement( 'p' );
+			var p1 = document.createElement( 'p' );
 			var span = document.createElement( 'span' );
 			var t1 = document.createTextNode( 'aa' );
 			var t2 = document.createTextNode( 'aa' );
@@ -55,12 +65,12 @@
 
 			broken = {};
 
-			p.appendChild( t1 );
-			p.appendChild( span );
+			p1.appendChild( t1 );
+			p1.appendChild( span );
 			span.appendChild( img );
 			span.appendChild( t2 );
 
-			document.body.appendChild( p );
+			document.body.appendChild( p1 );
 
 			range.setStart( t1, 1 );
 			range.setEnd( span, 0 );
@@ -86,7 +96,39 @@
 				broken.getBoundingClientRect = boundingRect.top === 0 && boundingRect.left === 0;
 			}
 
-			document.body.removeChild( p );
+			document.body.removeChild( p1 );
+
+			if ( !broken.getBoundingClientRect ) {
+				var p2 = document.createElement( 'p' );
+				p2.style.width = '0px';
+				p2.style.fontSize = '20px';
+				p2.style.whiteSpace = 'normal';
+				p2.style.wordBreak = 'normal';
+				var t3 = document.createTextNode( 'm mm' );
+				p2.appendChild( t3 );
+
+				document.body.appendChild( p2 );
+
+				range.setStart( t3, 1 );
+				range.setEnd( t3, 2 );
+
+				// Check for Chrome bug (#24)
+				// Bounding box doesn't include rect[1]
+				if ( rectExceedsBoundingRect( range, 1, 'left' ) ) {
+					broken.getBoundingClientRect = true;
+				} else {
+					// Check for Firefox bug (#24)
+					// Bounding box doesn't include rect[0]
+					range.setStart( t3, 1 );
+					range.setEnd( t3, 3 );
+
+					if ( rectExceedsBoundingRect( range, 0, 'top' ) ) {
+						broken.getBoundingClientRect = true;
+					}
+				}
+
+				document.body.removeChild( p2 );
+			}
 
 			// Detect IE<=10 where zooming scaling is broken
 			// eslint-disable-next-line no-new-func
