@@ -103,20 +103,29 @@ $( function () {
 
 	$( '.testRange' ).on( 'click', function ( e ) {
 		var range = document.createRange(),
-			testNode = $( '.testNode' )[ 0 ];
+			testNode1 = $( '.testNode1' )[ 0 ],
+			testNode2 = $( '.testNode2' )[ 0 ];
 
 		switch ( +$( e.target ).data( 'range' ) ) {
 			case 1:
-				range.setStart( testNode.firstChild, 1 );
-				range.setEnd( testNode.firstChild.nextSibling, 0 );
+				range.setStart( testNode1.firstChild, 1 );
+				range.setEnd( testNode1.firstChild.nextSibling, 0 );
 				break;
 			case 2:
-				range.setStart( testNode.firstChild, 1 );
-				range.setEnd( testNode.firstChild.nextSibling.firstChild.nextSibling, 3 );
+				range.setStart( testNode1.firstChild, 1 );
+				range.setEnd( testNode1.firstChild.nextSibling.firstChild.nextSibling, 3 );
 				break;
 			case 3:
-				range.setStart( testNode, 0 );
-				range.setEnd( testNode, 2 );
+				range.setStart( testNode1, 0 );
+				range.setEnd( testNode1, 2 );
+				break;
+			case 4:
+				range.setStart( testNode2.childNodes[ 0 ], 3 );
+				range.setEnd( testNode2.childNodes[ 0 ], 4 );
+				break;
+			case 5:
+				range.setStart( testNode2.childNodes[ 0 ], 3 );
+				range.setEnd( testNode2.childNodes[ 0 ], 5 );
 				break;
 		}
 		selection.removeAllRanges();
