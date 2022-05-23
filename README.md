@@ -10,7 +10,7 @@ In particular:
 * Chrome: Selection across a space which spans two lines results in a bounding rectangle which doesn't cover all the individual rectangles.
 * Firefox: Selections across a space which spans two lines, and text on the next line results in a bounding rectangle which doesn't cover all the individual rectangles.
 
-There are no known issues in Chrome >= 56, Edge and IE >= 11. In these browsers the library will fall through to native behaviour.
+There are no known issues in Edge and IE >= 11. In these browsers the library will fall through to native behaviour.
 
 Install
 =======
