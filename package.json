@@ -18,7 +18,7 @@
 	},
 	"devDependencies": {
 		"eslint-config-wikimedia": "0.22.1",
-		"stylelint": "14.5.3",
-		"stylelint-config-wikimedia": "0.12.2"
+		"stylelint": "14.8.3",
+		"stylelint-config-wikimedia": "0.13.0"
 	}
 }
