@@ -62,9 +62,7 @@ $( function () {
 		RangeFix.isBroken = function () {
 			return {
 				getClientRects: true,
-				getBoundingClientRect: true,
-				// ieZoom can't be mocked as it will break in non-IE clients
-				ieZoom: isBroken.ieZoom
+				getBoundingClientRect: true
 			};
 		};
 
