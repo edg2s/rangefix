@@ -45,12 +45,9 @@
 	 * getBoundingClientRect is also considered broken if
 	 * getClientRects is broken.
 	 *
-	 * For the IE zoom bug, just check the version number as
-	 * we can't detect the bug if the zoom level is currently 100%.
-	 *
 	 * @private
-	 * @return {Object} Object containing boolean properties 'getClientRects',
-	 *                  'getBoundingClientRect' and 'ieZoom' indicating bugs are present
+	 * @return {Object} Object containing boolean properties 'getClientRects' and
+	 *                  'getBoundingClientRect' indicating bugs are present
 	 *                  in these functions/browsers.
 	 */
 	rangeFix.isBroken = function () {
@@ -129,48 +126,9 @@
 
 				document.body.removeChild( p2 );
 			}
-
-			// Detect IE<=10 where zooming scaling is broken
-			// eslint-disable-next-line no-new-func
-			var jscriptVersion = window.ActiveXObject && new Function( '/*@cc_on return @_jscript_version; @*/' )();
-			broken.ieZoom = !!jscriptVersion && jscriptVersion <= 10;
 		}
 		return broken;
 	};
-
-	/**
-	 * Compensate for the current zoom level in IE<=10
-	 *
-	 * getClientRects returns values in real pixels in these browsers,
-	 * so using them in your CSS will result in them getting scaled again.
-	 *
-	 * @private
-	 * @param {DOMRectList|DOMRect[]|DOMRect|Object|null} rectOrRects Rect or list of rects to fix
-	 * @return {DOMRectList|DOMRect[]|DOMRect|Object|null} Fixed rect or list of rects
-	 */
-	function zoomFix( rectOrRects ) {
-		if ( !rectOrRects ) {
-			return rectOrRects;
-		}
-		// Optimisation when zoom level is 1: return original object
-		if ( screen.deviceXDPI === screen.logicalXDPI ) {
-			return rectOrRects;
-		}
-		// Rect list: map this function to each rect
-		if ( 'length' in rectOrRects ) {
-			return Array.prototype.map.call( rectOrRects, zoomFix );
-		}
-		// Single rect: Adjust by zoom factor
-		var zoom = screen.deviceXDPI / screen.logicalXDPI;
-		return {
-			top: rectOrRects.top / zoom,
-			bottom: rectOrRects.bottom / zoom,
-			left: rectOrRects.left / zoom,
-			right: rectOrRects.right / zoom,
-			width: rectOrRects.width / zoom,
-			height: rectOrRects.height / zoom
-		};
-	}
 
 	/**
 	 * Push one array-like object onto another.
@@ -206,11 +164,7 @@
 	 * @return {DOMRectList|DOMRect[]} DOMRectList or list of DOMRect objects describing range
 	 */
 	rangeFix.getClientRects = function ( range ) {
-		var isBroken = this.isBroken();
-
-		if ( isBroken.ieZoom ) {
-			return zoomFix( range.getClientRects() );
-		} else if ( !isBroken.getClientRects ) {
+		if ( !this.isBroken().getClientRects ) {
 			return range.getClientRects();
 		}
 
@@ -269,11 +223,8 @@
 		}
 
 		var nativeBoundingRect = range.getBoundingClientRect();
-		var isBroken = this.isBroken();
 
-		if ( isBroken.ieZoom ) {
-			return zoomFix( nativeBoundingRect );
-		} else if ( !isBroken.getBoundingClientRect ) {
+		if ( !this.isBroken().getBoundingClientRect ) {
 			return nativeBoundingRect;
 		}
 
