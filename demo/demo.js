@@ -13,7 +13,7 @@ $( function () {
 			.text( val ? 'Broken' : 'Working' );
 	}
 
-	function cssProps( rect ) {
+	function getCssProps( rect ) {
 		return {
 			left: rect.left,
 			top: rect.top,
@@ -50,13 +50,13 @@ $( function () {
 		let rects = range.getClientRects();
 		for ( i = 0, l = rects.length; i < l; i++ ) {
 			$highlightsNative.append(
-				$( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[ i ] ) ).append( $( '<span>' ).text( i ) )
+				$( '<div>' ).addClass( 'highlight' ).css( getCssProps( rects[ i ] ) ).append( $( '<span>' ).text( i ) )
 			);
 		}
 		$( '.highlights-native' ).empty().append( $highlightsNative );
 
 		let rect = range.getBoundingClientRect();
-		$highlightsNative.append( $( '<div>' ).addClass( 'bounding' ).css( cssProps( rect ) ) );
+		$highlightsNative.append( $( '<div>' ).addClass( 'bounding' ).css( getCssProps( rect ) ) );
 
 		// Mock isBroken
 		RangeFix.isBroken = function () {
@@ -70,14 +70,14 @@ $( function () {
 		rects = RangeFix.getClientRects( range );
 		for ( i = 0, l = rects.length; i < l; i++ ) {
 			$highlightsFixed.append(
-				$( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[ i ] ) ).append( $( '<span>' ).text( i ) )
+				$( '<div>' ).addClass( 'highlight' ).css( getCssProps( rects[ i ] ) ).append( $( '<span>' ).text( i ) )
 			);
 		}
 		$( '.highlights-fixed' ).empty().append( $highlightsFixed );
 
 		rect = RangeFix.getBoundingClientRect( range );
 		if ( rect ) {
-			$highlightsFixed.append( $( '<div>' ).addClass( 'bounding' ).css( cssProps( rect ) ) );
+			$highlightsFixed.append( $( '<div>' ).addClass( 'bounding' ).css( getCssProps( rect ) ) );
 		}
 
 		// Restore
