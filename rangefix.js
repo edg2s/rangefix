@@ -144,14 +144,12 @@
 		const batchSize = 1024;
 		if ( batchSize >= data.length ) {
 			// Avoid slicing for small lists
-			return Array.prototype.push.apply( arr, data );
+			return arr.push( ...data );
 		}
 		let length;
 		while ( index < data.length ) {
-			// Call arr.push( i0, i1, i2, ..., i1023 );
-			length = Array.prototype.push.apply(
-				arr, Array.prototype.slice.call( data, index, index + batchSize )
-			);
+			// Call arr.push( i0, i1, i2, …, i1023 );
+			length = arr.push( ...data.slice( index, index + batchSize ) );
 			index += batchSize;
 		}
 		return length;
@@ -241,8 +239,7 @@
 		}
 
 		let boundingRect;
-		for ( let i = 0, l = rects.length; i < l; i++ ) {
-			const rect = rects[ i ];
+		Array.prototype.forEach.call( rects, ( rect ) => {
 			if ( !boundingRect ) {
 				boundingRect = {
 					left: rect.left,
@@ -256,7 +253,7 @@
 				boundingRect.right = Math.max( boundingRect.right, rect.right );
 				boundingRect.bottom = Math.max( boundingRect.bottom, rect.bottom );
 			}
-		}
+		} );
 		if ( boundingRect ) {
 			boundingRect.width = boundingRect.right - boundingRect.left;
 			boundingRect.height = boundingRect.bottom - boundingRect.top;

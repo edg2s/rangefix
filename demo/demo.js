@@ -45,18 +45,17 @@ $( function () {
 		const $highlightsNative = $( '<div>' );
 		const $highlightsFixed = $( '<div>' );
 
-		let i, l;
 		// Native
-		let rects = range.getClientRects();
-		for ( i = 0, l = rects.length; i < l; i++ ) {
+		const nativeRects = range.getClientRects();
+		Array.prototype.forEach.call( nativeRects, ( rect, i ) => {
 			$highlightsNative.append(
-				$( '<div>' ).addClass( 'highlight' ).css( getCssProps( rects[ i ] ) ).append( $( '<span>' ).text( i ) )
+				$( '<div>' ).addClass( 'highlight' ).css( getCssProps( rect ) ).append( $( '<span>' ).text( i ) )
 			);
-		}
+		} );
 		$( '.highlights-native' ).empty().append( $highlightsNative );
 
-		let rect = range.getBoundingClientRect();
-		$highlightsNative.append( $( '<div>' ).addClass( 'bounding' ).css( getCssProps( rect ) ) );
+		const nativeBoundingRect = range.getBoundingClientRect();
+		$highlightsNative.append( $( '<div>' ).addClass( 'bounding' ).css( getCssProps( nativeBoundingRect ) ) );
 
 		// Mock isBroken
 		RangeFix.isBroken = function () {
@@ -67,17 +66,17 @@ $( function () {
 		};
 
 		// Fixed
-		rects = RangeFix.getClientRects( range );
-		for ( i = 0, l = rects.length; i < l; i++ ) {
+		const fixedRects = RangeFix.getClientRects( range );
+		Array.prototype.forEach.call( fixedRects, ( rect, i ) => {
 			$highlightsFixed.append(
-				$( '<div>' ).addClass( 'highlight' ).css( getCssProps( rects[ i ] ) ).append( $( '<span>' ).text( i ) )
+				$( '<div>' ).addClass( 'highlight' ).css( getCssProps( rect ) ).append( $( '<span>' ).text( i ) )
 			);
-		}
+		} );
 		$( '.highlights-fixed' ).empty().append( $highlightsFixed );
 
-		rect = RangeFix.getBoundingClientRect( range );
-		if ( rect ) {
-			$highlightsFixed.append( $( '<div>' ).addClass( 'bounding' ).css( getCssProps( rect ) ) );
+		const fixedBoundingRect = RangeFix.getBoundingClientRect( range );
+		if ( fixedBoundingRect ) {
+			$highlightsFixed.append( $( '<div>' ).addClass( 'bounding' ).css( getCssProps( fixedBoundingRect ) ) );
 		}
 
 		// Restore
