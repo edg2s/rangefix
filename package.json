@@ -11,7 +11,7 @@
 	},
 	"main": "rangefix.js",
 	"files": [
-		"rangefix.js"
+		"src/"
 	],
 	"scripts": {
 		"test": "eslint . && stylelint **/*.css"

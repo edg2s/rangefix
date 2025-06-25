@@ -1,15 +1,5 @@
 {
 	"extends": [
-		"wikimedia/client/es6"
-	],
-	"env": {
-		"commonjs": true,
-		"amd": true
-	},
-	"globals": {
-		"RangeFix": "readonly"
-	},
-	"rules": {
-		"max-len": "off"
-	}
+		"wikimedia/server"
+	]
 }
