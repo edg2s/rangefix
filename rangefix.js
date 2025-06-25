@@ -17,15 +17,15 @@
 		// Browser globals
 		root.RangeFix = factory();
 	}
-}( this, function () {
+}( this, () => {
 
-	var broken,
-		rangeFix = {};
+	let broken;
+	const rangeFix = {};
 
 	function rectExceedsBoundingRect( range, rectOffset, edge ) {
-		var rects = range.getClientRects();
+		const rects = range.getClientRects();
 		if ( rects.length === 2 ) {
-			var rect = range.getBoundingClientRect();
+			const rect = range.getBoundingClientRect();
 			// Second line rect exceeds the boundary of the bounding rect
 			return rects[ rectOffset ][ edge ] < rect[ edge ];
 		}
@@ -52,13 +52,13 @@
 	 */
 	rangeFix.isBroken = function () {
 		if ( broken === undefined ) {
-			var p1 = document.createElement( 'p' );
-			var span = document.createElement( 'span' );
-			var t1 = document.createTextNode( 'aa' );
-			var t2 = document.createTextNode( 'aa' );
-			var img = document.createElement( 'img' );
+			const p1 = document.createElement( 'p' );
+			const span = document.createElement( 'span' );
+			const t1 = document.createTextNode( 'aa' );
+			const t2 = document.createTextNode( 'aa' );
+			const img = document.createElement( 'img' );
 			img.setAttribute( 'src', 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' );
-			var range = document.createRange();
+			const range = document.createRange();
 
 			broken = {};
 
@@ -89,19 +89,19 @@
 				// Safari doesn't return a valid bounding rect for collapsed ranges
 				// Equivalent to range.collapse( true ) which isn't well supported
 				range.setEnd( range.startContainer, range.startOffset );
-				var boundingRect = range.getBoundingClientRect();
+				const boundingRect = range.getBoundingClientRect();
 				broken.getBoundingClientRect = boundingRect.top === 0 && boundingRect.left === 0;
 			}
 
 			document.body.removeChild( p1 );
 
 			if ( !broken.getBoundingClientRect ) {
-				var p2 = document.createElement( 'p' );
+				const p2 = document.createElement( 'p' );
 				p2.style.width = '0px';
 				p2.style.fontSize = '20px';
 				p2.style.whiteSpace = 'normal';
 				p2.style.wordBreak = 'normal';
-				var t3 = document.createTextNode( 'm mm' );
+				const t3 = document.createTextNode( 'm mm' );
 				p2.appendChild( t3 );
 
 				document.body.appendChild( p2 );
@@ -140,13 +140,13 @@
 	function batchPush( arr, data ) {
 		// We need to push insertion in batches, because of parameter list length limits which vary
 		// cross-browser - 1024 seems to be a safe batch size on all browsers
-		var index = 0,
-			batchSize = 1024;
+		let index = 0;
+		const batchSize = 1024;
 		if ( batchSize >= data.length ) {
 			// Avoid slicing for small lists
 			return Array.prototype.push.apply( arr, data );
 		}
-		var length;
+		let length;
 		while ( index < data.length ) {
 			// Call arr.push( i0, i1, i2, ..., i1023 );
 			length = Array.prototype.push.apply(
@@ -173,14 +173,14 @@
 		// we reach the common ancestor, then we can add on from start to where
 		// we got up to
 		// https://code.google.com/p/chromium/issues/detail?id=324437
-		var rects = [];
-		var endContainerRects = [];
-		var endContainer = range.endContainer;
-		var endOffset = range.endOffset;
-		var partialRange = document.createRange();
+		const rects = [];
+		const endContainerRects = [];
+		let endContainer = range.endContainer;
+		let endOffset = range.endOffset;
+		let partialRange = document.createRange();
 
 		function indexOf( child ) {
-			var i = 0;
+			let i = 0;
 			while ( ( child = child.previousSibling ) ) {
 				i++;
 			}
@@ -214,7 +214,7 @@
 	 *                                  bounding rectangle, or null if not computable
 	 */
 	rangeFix.getBoundingClientRect = function ( range ) {
-		var rects = this.getClientRects( range );
+		const rects = this.getClientRects( range );
 
 		// If there are no rects return null, otherwise we'll fall through to
 		// getBoundingClientRect, which in Chrome and Firefox becomes [0,0,0,0].
@@ -222,7 +222,7 @@
 			return null;
 		}
 
-		var nativeBoundingRect = range.getBoundingClientRect();
+		const nativeBoundingRect = range.getBoundingClientRect();
 
 		if ( !this.isBroken().getBoundingClientRect ) {
 			return nativeBoundingRect;
@@ -240,9 +240,9 @@
 			return rects[ 0 ];
 		}
 
-		var boundingRect;
-		for ( var i = 0, l = rects.length; i < l; i++ ) {
-			var rect = rects[ i ];
+		let boundingRect;
+		for ( let i = 0, l = rects.length; i < l; i++ ) {
+			const rect = rects[ i ];
 			if ( !boundingRect ) {
 				boundingRect = {
 					left: rect.left,

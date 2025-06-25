@@ -2,12 +2,12 @@
 
 $( function () {
 
-	var isBrokenOriginal = RangeFix.isBroken,
+	const isBrokenOriginal = RangeFix.isBroken,
 		isBroken = RangeFix.isBroken(),
 		selection = document.getSelection();
 
-	for ( var prop in isBroken ) {
-		var val = isBroken[ prop ];
+	for ( const prop in isBroken ) {
+		const val = isBroken[ prop ];
 		$( '.isBroken-' + prop )
 			.toggleClass( 'broken', val ).toggleClass( 'working', !val )
 			.text( val ? 'Broken' : 'Working' );
@@ -27,7 +27,7 @@ $( function () {
 	}
 
 	function render( range ) {
-		var $col;
+		let $col;
 		if ( !range ) {
 			if ( selection.rangeCount === 0 ) {
 				return;
@@ -42,12 +42,12 @@ $( function () {
 			$col = $( '.col-text' );
 		}
 
-		var $highlightsNative = $( '<div>' );
-		var $highlightsFixed = $( '<div>' );
+		const $highlightsNative = $( '<div>' );
+		const $highlightsFixed = $( '<div>' );
 
-		var i, l;
+		let i, l;
 		// Native
-		var rects = range.getClientRects();
+		let rects = range.getClientRects();
 		for ( i = 0, l = rects.length; i < l; i++ ) {
 			$highlightsNative.append(
 				$( '<div>' ).addClass( 'highlight' ).css( cssProps( rects[ i ] ) ).append( $( '<span>' ).text( i ) )
@@ -55,7 +55,7 @@ $( function () {
 		}
 		$( '.highlights-native' ).empty().append( $highlightsNative );
 
-		var rect = range.getBoundingClientRect();
+		let rect = range.getBoundingClientRect();
 		$highlightsNative.append( $( '<div>' ).addClass( 'bounding' ).css( cssProps( rect ) ) );
 
 		// Mock isBroken
@@ -84,23 +84,23 @@ $( function () {
 		RangeFix.isBroken = isBrokenOriginal;
 
 		// Adjust for container position
-		var offset = $col[ 0 ].getBoundingClientRect();
+		const offset = $col[ 0 ].getBoundingClientRect();
 		$( '.highlights' ).css( { top: -offset.top, left: -offset.left } );
 	}
 
-	var hasSelectionChange = 'onselectionchange' in document;
-	var events = hasSelectionChange ? 'selectionchange' : 'mousemove mouseup keypress keydown keyup';
+	const hasSelectionChange = 'onselectionchange' in document;
+	const events = hasSelectionChange ? 'selectionchange' : 'mousemove mouseup keypress keydown keyup';
 	$( document ).on( events, render.bind( this, null ) );
 	$( window ).on( 'resize', render.bind( this, null ) );
 
-	$( '.ce' ).on( 'input keyup', function () {
+	$( '.ce' ).on( 'input keyup', () => {
 		updateMirrors();
 	} );
 
 	updateMirrors();
 
-	$( '.testRange' ).on( 'click', function ( e ) {
-		var range = document.createRange(),
+	$( '.testRange' ).on( 'click', ( e ) => {
+		const range = document.createRange(),
 			testNode1 = $( '.testNode1' )[ 0 ],
 			testNode2 = $( '.testNode2' )[ 0 ];
 

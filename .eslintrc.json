@@ -1,6 +1,6 @@
 {
 	"extends": [
-		"wikimedia/client/es5"
+		"wikimedia/client/es6"
 	],
 	"env": {
 		"commonjs": true,
