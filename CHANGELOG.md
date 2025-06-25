@@ -1,3 +1,10 @@
+0.3.0
+=====
+
+* Use array loops and argument spread
+* Update to ES6 and autofix
+* [BREAKING CHANGE] Drop support for IE
+
 0.2.10
 ======
 
